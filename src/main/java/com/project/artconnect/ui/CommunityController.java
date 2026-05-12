@@ -22,10 +22,14 @@ public class CommunityController {
     private final CommunityService communityService = ServiceProvider.getCommunityService();
 
     @FXML
+    private TableColumn<CommunityMember, String> membershipColumn;
+
+    @FXML
     public void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+        membershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
 
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }

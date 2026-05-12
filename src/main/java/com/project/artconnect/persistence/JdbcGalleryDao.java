@@ -43,6 +43,7 @@ public class JdbcGalleryDao implements GalleryDao {
             while (rs.next()) {
                 Gallery g = new Gallery();
                 g.setName(rs.getString("name"));
+                g.setRating(rs.getDouble("rating"));
                 g.setAddress(rs.getString("address"));
                 g.setWebsite(rs.getString("website"));
                 galleries.add(g);

@@ -50,6 +50,7 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao {
                 m.setName(rs.getString("name"));
                 m.setEmail(rs.getString("email"));
                 m.setCity(rs.getString("city"));
+                m.setMembershipType(rs.getString("membershipType"));
                 members.add(m);
             }
         } catch (SQLException e) {
