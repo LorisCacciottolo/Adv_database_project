@@ -29,6 +29,7 @@ com\project\artconnect\util\ConnectionManager.class
 com\project\artconnect\ui\DiscoverController$2.class
 com\project\artconnect\util\ServiceProvider.class
 com\project\artconnect\service\impl\JdbcCommunityService.class
+com\project\artconnect\ui\WorkshopController$1.class
 com\project\artconnect\model\ArtworkTag.class
 com\project\artconnect\dao\BookingDao.class
 com\project\artconnect\service\impl\InMemoryWorkshopService.class

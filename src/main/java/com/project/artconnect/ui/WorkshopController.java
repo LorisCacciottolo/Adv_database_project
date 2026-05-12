@@ -10,6 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javafx.scene.control.TableCell;
 
 public class WorkshopController {
     @FXML
@@ -30,9 +32,22 @@ public class WorkshopController {
     @FXML
     public void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        dateColumn.setCellFactory(column -> new TableCell<Workshop, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime date, boolean empty) {
+                super.updateItem(date, empty);
+
+                if (empty || date == null) {
+                } else {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    setText(date.format(formatter));
+                }
+            }
+        });
 
         instructorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getInstructor() != null ? cellData.getValue().getInstructor().getName()

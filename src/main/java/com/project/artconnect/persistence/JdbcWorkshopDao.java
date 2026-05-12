@@ -51,6 +51,10 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
                 w.setLevel(rs.getString("level"));
 
+                java.sql.Timestamp ts = rs.getTimestamp("dateTime");
+                if (ts != null) {
+                    w.setDate(ts.toLocalDateTime());
+                }
                 Artist instructor = new Artist();
                 String name = rs.getString("instructor_name");
                 instructor.setName(name != null ? name : "Unknown");
