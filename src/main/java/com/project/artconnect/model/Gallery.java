@@ -12,6 +12,7 @@ public class Gallery {
     private double rating;
     private String website;
     private List<Exhibition> exhibitions = new ArrayList<>();
+    private Organizer organizer;
 
     public Gallery() {
     }
@@ -91,6 +92,14 @@ public class Gallery {
         if (exhibition.getGallery() != this) {
             exhibition.setGallery(this);
         }
+    }
+
+    public Organizer getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
     }
 
     @Override

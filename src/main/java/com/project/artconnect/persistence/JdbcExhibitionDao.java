@@ -4,7 +4,7 @@ import com.project.artconnect.dao.ExhibitionDao;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.config.DatabaseConfig;
 import com.project.artconnect.model.Gallery;
-import com.project.artconnect.util.ConnectionManager;
+import com.project.artconnect.model.Organizer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +14,34 @@ public class JdbcExhibitionDao implements ExhibitionDao {
     @Override
     public List<Exhibition> findAll() {
         List<Exhibition> exhibitions = new ArrayList<>();
-        String sql = "SELECT e.*, g.name AS gallery_name FROM Exhibition e " +
-                "LEFT JOIN Gallery g ON e.gallery_id = g.gallery_id";
+        String sql = "SELECT * FROM vw_ExhibitionDetails";
 
-        try (Connection conn = ConnectionManager.getConnection();
+        try (Connection conn = DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
+                Organizer o = new Organizer();
+                o.setName(rs.getString("organizer_name"));
+
+                Gallery g = new Gallery();
+                g.setName(rs.getString("gallery_name"));
+                g.setOrganizer(o);
+
                 Exhibition ex = new Exhibition();
-                ex.setTitle(rs.getString("title"));
+                ex.setTitle(rs.getString("exhibition_title"));
                 ex.setTheme(rs.getString("theme"));
 
                 Date sDate = rs.getDate("startDate");
                 if (sDate != null) {
                     ex.setStartDate(sDate.toLocalDate());
                 }
+                Date eDate = rs.getDate("endDate");
+                if (eDate != null) {
+                    ex.setEndDate(eDate.toLocalDate());
+                }
 
-                Gallery gallery = new Gallery();
-                gallery.setName(rs.getString("gallery_name"));
-                ex.setGallery(gallery);
+                ex.setGallery(g);
 
                 exhibitions.add(ex);
             }
@@ -82,5 +90,4 @@ public class JdbcExhibitionDao implements ExhibitionDao {
             e.printStackTrace();
         }
     }
-
 }

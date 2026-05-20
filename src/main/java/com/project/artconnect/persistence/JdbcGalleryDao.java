@@ -2,6 +2,7 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.GalleryDao;
 import com.project.artconnect.model.Gallery;
+import com.project.artconnect.model.Organizer;
 import com.project.artconnect.config.DatabaseConfig;
 
 import java.sql.*;
@@ -36,16 +37,25 @@ public class JdbcGalleryDao implements GalleryDao {
     @Override
     public List<Gallery> findAll() {
         List<Gallery> galleries = new ArrayList<>();
-        String sql = "SELECT * FROM Gallery";
+
+        String sql = "SELECT g.*, o.name AS organizer_name FROM Gallery g " +
+                "LEFT JOIN Organizer o ON g.organizer_id = o.organizer_id";
+
         try (Connection conn = DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
                 Gallery g = new Gallery();
                 g.setName(rs.getString("name"));
                 g.setRating(rs.getDouble("rating"));
                 g.setAddress(rs.getString("address"));
                 g.setWebsite(rs.getString("website"));
+
+                Organizer o = new Organizer();
+                o.setName(rs.getString("organizer_name"));
+                g.setOrganizer(o);
+
                 galleries.add(g);
             }
         } catch (SQLException e) {
@@ -53,7 +63,6 @@ public class JdbcGalleryDao implements GalleryDao {
         }
         return galleries;
     }
-
 
     public void save(Gallery gallery) {
         String sql = "INSERT INTO Gallery (gallery_id, name, address, organizer_id) VALUES (?, ?, ?, ?)";
