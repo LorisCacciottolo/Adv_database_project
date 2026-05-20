@@ -12,6 +12,7 @@ public class Workshop {
     private String location;
     private String description;
     private String level; // beginner, intermediate, advanced
+    private int currentParticipants;
 
     public Workshop() {
     }
@@ -93,6 +94,14 @@ public class Workshop {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public int getCurrentParticipants() {
+        return currentParticipants;
+    }
+
+    public void setCurrentParticipants(int currentParticipants) {
+        this.currentParticipants = currentParticipants;
     }
 
     @Override

@@ -37,10 +37,12 @@ public class JdbcWorkshopDao implements WorkshopDao {
     @Override
     public List<Workshop> findAll() {
         List<Workshop> workshops = new ArrayList<>();
-        String sql = "SELECT w.*, a.name AS instructor_name FROM Workshop w " +
+
+        String sql = "SELECT w.*, a.name AS instructor_name, fn_GetParticipantCount(w.workshop_id) AS current_participants " +
+                "FROM Workshop w " +
                 "LEFT JOIN Artist a ON w.artist_id = a.artist_id";
 
-        try (Connection conn = ConnectionManager.getConnection();
+        try (Connection conn = DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -48,16 +50,18 @@ public class JdbcWorkshopDao implements WorkshopDao {
                 Workshop w = new Workshop();
                 w.setTitle(rs.getString("title"));
                 w.setPrice(rs.getDouble("price"));
-
                 w.setLevel(rs.getString("level"));
 
-                java.sql.Timestamp ts = rs.getTimestamp("dateTime");
+                w.setMaxParticipants(rs.getInt("maxParticipants"));
+                w.setCurrentParticipants(rs.getInt("current_participants"));
+
+                Timestamp ts = rs.getTimestamp("dateTime");
                 if (ts != null) {
                     w.setDate(ts.toLocalDateTime());
                 }
+
                 Artist instructor = new Artist();
-                String name = rs.getString("instructor_name");
-                instructor.setName(name != null ? name : "Unknown");
+                instructor.setName(rs.getString("instructor_name"));
                 w.setInstructor(instructor);
 
                 workshops.add(w);

@@ -26,11 +26,17 @@ public class WorkshopController {
     private TableColumn<Workshop, Double> priceColumn;
     @FXML
     private TableColumn<Workshop, String> levelColumn;
+    @FXML
+    private TableColumn<Workshop, String> capacityColumn;
 
     private final WorkshopService workshopService = ServiceProvider.getWorkshopService();
 
     @FXML
     public void initialize() {
+        capacityColumn.setCellValueFactory(cellData -> {
+            Workshop w = cellData.getValue();
+            return new SimpleStringProperty(w.getCurrentParticipants() + " / " + w.getMaxParticipants());
+        });
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
