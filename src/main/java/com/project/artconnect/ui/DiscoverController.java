@@ -22,7 +22,11 @@ public class DiscoverController {
 
     @FXML
     public void initialize() {
-        // Collect some exhibitions from galleries
+        refreshData();
+    }
+
+    public void refreshData() {
+        discoverPane.getChildren().clear();
         List<Exhibition> featuredExhibitions = new ArrayList<>();
         for (Gallery g : galleryService.getAllGalleries()) {
             featuredExhibitions.addAll(g.getExhibitions());

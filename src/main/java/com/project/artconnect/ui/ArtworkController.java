@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.project.artconnect.model.Artist;
+
 
 public class ArtworkController {
     @FXML
@@ -36,9 +38,18 @@ public class ArtworkController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
 
-        artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));
+        artistColumn.setCellValueFactory(cellData -> {
+            Artist currentArtist = cellData.getValue().getArtist();
 
-        artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));
-    }
+            if (currentArtist != null) {
+                return new SimpleStringProperty(currentArtist.getName());
+            }
+            else {
+                return new SimpleStringProperty("In");
+            }
+        });
+        refreshData();    }
+
+    public void refreshData() {
+        artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));}
 }

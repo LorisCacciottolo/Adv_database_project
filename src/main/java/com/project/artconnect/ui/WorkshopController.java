@@ -59,6 +59,10 @@ public class WorkshopController {
                 cellData.getValue().getInstructor() != null ? cellData.getValue().getInstructor().getName()
                         : "Unknown"));
 
+        refreshData();
+    }
+
+    public void refreshData() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
     }
 }

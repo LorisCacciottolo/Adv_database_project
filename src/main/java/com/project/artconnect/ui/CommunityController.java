@@ -34,6 +34,10 @@ public class CommunityController {
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         membershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
         workshopsColumn.setCellValueFactory(new PropertyValueFactory<>("enrolledWorkshops"));
+
+        refreshData();
+    }
+    public void refreshData() {
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }
 }

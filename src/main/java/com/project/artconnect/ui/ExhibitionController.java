@@ -39,9 +39,8 @@ public class ExhibitionController {
         refreshData();
     }
 
-    private void refreshData() {
+    public void refreshData() {
         List<Exhibition> all = galleryService.getExhibitionsByGallery(null);
-
         exhibitionTable.setItems(FXCollections.observableArrayList(all));
     }
 }

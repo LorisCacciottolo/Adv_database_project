@@ -37,4 +37,8 @@ public class GalleryController {
             }
         });
     }
+
+    public void refreshData() {
+        galleryList.setItems(FXCollections.observableArrayList(galleryService.getAllGalleries()));
+    }
 }

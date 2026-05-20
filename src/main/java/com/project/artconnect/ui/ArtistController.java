@@ -34,9 +34,16 @@ public class ArtistController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
 
-        disciplineFilter.setItems(FXCollections.observableArrayList(artistService.getAllDisciplines()));
-        refreshTable();
+        refreshData();
     }
+
+
+    public void refreshData() {
+        disciplineFilter.setItems(FXCollections.observableArrayList(artistService.getAllDisciplines()));
+        artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
+    }
+
+
 
     @FXML
     private void handleSearch() {
@@ -50,10 +57,8 @@ public class ArtistController {
     private void handleReset() {
         searchField.clear();
         disciplineFilter.setValue(null);
-        refreshTable();
+        refreshData();
     }
 
-    private void refreshTable() {
-        artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
-    }
+
 }
