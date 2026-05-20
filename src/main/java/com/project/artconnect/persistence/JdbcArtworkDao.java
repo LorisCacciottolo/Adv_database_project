@@ -14,8 +14,11 @@ public class JdbcArtworkDao implements ArtworkDao {
     @Override
     public List<Artwork> findAll() {
         List<Artwork> artworks = new ArrayList<>();
-        String sql = "SELECT aw.*, ar.name AS artist_name FROM Artwork aw " +
-                "LEFT JOIN Artist ar ON aw.artist_id = ar.artist_id";
+        String sql = "SELECT aw.*, ar.name AS artist_name, AVG(r.rating) AS average_rating " +
+                "FROM Artwork aw " +
+                "LEFT JOIN Artist ar ON aw.artist_id = ar.artist_id " +
+                "LEFT JOIN Review r ON aw.artwork_id = r.artwork_id " +
+                "GROUP BY aw.artwork_id";
 
         try (Connection conn = ConnectionManager.getConnection();
              Statement stmt = conn.createStatement();
@@ -39,6 +42,14 @@ public class JdbcArtworkDao implements ArtworkDao {
                         a.setStatus(Artwork.Status.FOR_SALE);
                     }
                 }
+
+                double avg = rs.getDouble("average_rating");
+                if (rs.wasNull()) {
+                    a.setAverageRating(null);
+                } else {
+                    a.setAverageRating(Math.round(avg * 10.0) / 10.0);
+                }
+
                 artworks.add(a);
             }
         } catch (SQLException e) {

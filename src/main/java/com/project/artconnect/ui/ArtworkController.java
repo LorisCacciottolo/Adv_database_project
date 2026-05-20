@@ -23,6 +23,8 @@ public class ArtworkController {
     private TableColumn<Artwork, String> statusColumn;
     @FXML
     private TableColumn<Artwork, String> artistColumn;
+    @FXML
+    private TableColumn<Artwork, Double> ratingColumn;
 
     private final ArtworkService artworkService = ServiceProvider.getArtworkService();
 
@@ -32,6 +34,7 @@ public class ArtworkController {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        ratingColumn.setCellValueFactory(new PropertyValueFactory<>("averageRating"));
 
         artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));

@@ -12,9 +12,9 @@ public class Artwork {
     private String description;
     private double price;
     private Status status;
+    private Double averageRating;
 
     private Artist artist;
-    private List<ArtworkTag> tags = new ArrayList<>();
 
     public enum Status {
         FOR_SALE, SOLD, EXHIBITED
@@ -105,13 +105,9 @@ public class Artwork {
         this.artist = artist;
     }
 
-    public List<ArtworkTag> getTags() {
-        return tags;
-    }
+    public Double getAverageRating() { return averageRating; }
 
-    public void setTags(List<ArtworkTag> tags) {
-        this.tags = tags;
-    }
+    public void setAverageRating(Double averageRating) { this.averageRating = averageRating; }
 
     @Override
     public String toString() {
