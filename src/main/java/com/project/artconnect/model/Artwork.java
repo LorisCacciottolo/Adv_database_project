@@ -3,9 +3,6 @@ package com.project.artconnect.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Artwork entity representing a piece created by an artist.
- */
 public class Artwork {
     private String title;
     private Integer creationYear;

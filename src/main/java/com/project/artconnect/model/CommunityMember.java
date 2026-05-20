@@ -13,6 +13,7 @@ public class CommunityMember {
     private String membershipType;
     private List<Booking> bookings = new ArrayList<>();
     private List<Review> reviews = new ArrayList<>();
+    private String enrolledWorkshops;
 
     public CommunityMember() {
     }
@@ -100,6 +101,9 @@ public class CommunityMember {
             booking.setMember(this);
         }
     }
+    public String getEnrolledWorkshops() { return enrolledWorkshops; }
+
+    public void setEnrolledWorkshops(String enrolledWorkshops) { this.enrolledWorkshops = enrolledWorkshops;}
 
     @Override
     public String toString() {

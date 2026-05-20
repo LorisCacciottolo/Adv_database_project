@@ -3,9 +3,7 @@ package com.project.artconnect.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Artist entity representing a creator in the community.
- */
+
 public class Artist {
     private String name;
     private String bio;
@@ -31,7 +29,6 @@ public class Artist {
         this.isActive = true;
     }
 
-    // Getters and Setters
     public String getName() {
         return name;
     }

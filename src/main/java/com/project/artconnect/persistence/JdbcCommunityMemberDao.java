@@ -39,7 +39,12 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao {
     @Override
     public List<CommunityMember> findAll() {
         List<CommunityMember> members = new ArrayList<>();
-        String sql = "SELECT * FROM CommunityMember";
+
+        String sql = "SELECT c.*, GROUP_CONCAT(w.title SEPARATOR ', ') AS enrolled_workshops " +
+                "FROM CommunityMember c " +
+                "LEFT JOIN Booking b ON c.member_id = b.member_id AND b.paymentStatus != 'Annulé' " +
+                "LEFT JOIN Workshop w ON b.workshop_id = w.workshop_id " +
+                "GROUP BY c.member_id";
 
         try (Connection conn = DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD);
              Statement stmt = conn.createStatement();
@@ -47,10 +52,13 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao {
 
             while (rs.next()) {
                 CommunityMember m = new CommunityMember();
+
                 m.setName(rs.getString("name"));
                 m.setEmail(rs.getString("email"));
                 m.setCity(rs.getString("city"));
                 m.setMembershipType(rs.getString("membershipType"));
+                m.setEnrolledWorkshops(rs.getString("enrolled_workshops"));
+
                 members.add(m);
             }
         } catch (SQLException e) {

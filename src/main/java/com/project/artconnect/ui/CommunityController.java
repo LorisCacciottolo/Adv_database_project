@@ -25,12 +25,15 @@ public class CommunityController {
     private TableColumn<CommunityMember, String> membershipColumn;
 
     @FXML
+    private TableColumn<CommunityMember, String> workshopsColumn;
+
+    @FXML
     public void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         membershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
-
+        workshopsColumn.setCellValueFactory(new PropertyValueFactory<>("enrolledWorkshops"));
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }
 }
